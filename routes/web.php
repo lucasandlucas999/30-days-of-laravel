@@ -17,14 +17,18 @@ Route::get('/lucas', function(){
 });
 
 Route::get('/jobs', function(){
-    return view('jobs', [
-        "jobs" => Job::all()
-    ]);
+    $jobs = Job::all();
+    return view('jobs', ['jobs' => $jobs]);
 });
 
 
 
 Route::get('/jobs/{id}', function($id){
-    return view('job', ['job' => Job::find($id)]);
-
+    $job = Job::find($id);
+    if(!$job){
+        abort(404);
+    }
+    return view('jobs', ['jobs' => [$job]]);
 });
+
+Route::get('/ping', fn() => ['pong' => true]);
